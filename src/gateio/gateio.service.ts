@@ -55,12 +55,15 @@ export class GateioService implements OnModuleInit, OnModuleDestroy {
   private async fetchTradingPairs() {
     try {
       const response = await axios.get(this.pairsUrl);
-      if (Array.isArray(response.data)) {
-        this.symbols = response.data.map(pair => pair.replace('_', '/')).map(pair => pair.replace('/', '_'));
-        console.log(`Fetched ${this.symbols.length} trading pairs`);
-      } else {
-        throw new Error('Invalid response format from pairs API');
-      }
+      // if (Array.isArray(response.data)) {
+      //   this.symbols = response.data.map(pair => pair.replace('_', '/')).map(pair => pair.replace('/', '_'));
+      //   console.log(`Fetched ${this.symbols.length} trading pairs`);
+      //   throw new Error('Invalid response format from pairs API');
+        
+      // } else {
+      //   throw new Error('Invalid response format from pairs API');
+      // }
+      this.symbols = ["BTC_USDT", "ETH_USDT", "BNB_USDT"];
     } catch (error) {
       console.error('Failed to fetch trading pairs:', error);
       this.symbols = ["BTC_USDT", "ETH_USDT", "BNB_USDT"];
@@ -114,6 +117,7 @@ export class GateioService implements OnModuleInit, OnModuleDestroy {
   private handleMessage(data: WebSocket.RawData) {
     try {
       const message = JSON.parse(data.toString());
+
       
       if (message.event === 'subscribe') {
         return;
